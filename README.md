@@ -2,6 +2,20 @@
 A collection of docker containers to provide enterprise-level services for a home network all hosted from a Raspberry Pi
 
 Thank you to Jeff Geerling for inspiration and a framework for this project in his [internet-pi project](https://github.com/geerlingguy/internet-pi)
+
+## Features
+
+### Ansible-installed Features
+* Grafana 
+* Prometheus
+* Power monitoring using shelly WiFi plug
+* Network monitoring using Speedtest
+### Docker Features
+* PiHole - Local DNS server for adblocking and internet privacy
+* Homer - Dashboard for locally hosted services
+* Homebridge - Third-party device support for Apple Homekit
+* Wireguard - VPN server for local network access
+
 ## Installation
 ### Requirements
 * Raspberry Pi running RaspberryPiOS or your distro of choice
@@ -24,6 +38,17 @@ Thank you to Jeff Geerling for inspiration and a framework for this project in h
 - Run the base Ansible playbook to install the framework `ansible-playbook main.yml`
 - Create the docker containers with `docker-compose up -d`
     * For Portainer and Rancher, create and deploy a new stack using the contents of `docker-compose.yml`
+
+### Post-installation Configuration
+- Add DNS blocklists to PiHole avaliable at [The Firebog](https://v.firebog.net/hosts/lists.php)
+- Customize Homer dashboard by editing `/homer/config.yml` on the host
+- Add HomeBridge to Apple Homekit by using the web gui at `server-ip:8581`
+- Fetch VPN peer keys from `./config/wireguard` on the host
+
+### Web UI Locations
+- PiHole at `server-ip:81`
+- Homer at `server-ip:80`
+- Homebridge at `server-ip:8581`
 
 ## Contribution Notes
 Since this is a pi-based project, please confirm all included docker images are compatible with arm64 systems
