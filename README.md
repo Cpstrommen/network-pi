@@ -29,8 +29,9 @@ Thank you to Jeff Geerling for inspiration and a framework for this project in h
 * Optional: Portainer or Rancher for container management
 
 ### Configuration
-- Edit `config.yml` to meet your requirements
-- Change details in `docker-compose.yml` for your network
+- Edit `example-config.yml` to meet your requirements and copy to `config.yml`
+- Change details in `example-docker-compose.yml` for your network and copy to `docker-compose.yml`
+- Add details to `example-inventory.ini` and copy to `inventory.ini`
 
 ### Installation
 - Clone this repository and `cd network-pi`
