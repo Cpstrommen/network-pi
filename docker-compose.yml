@@ -1,0 +1,78 @@
+version: 3
+
+services:
+
+  #pihole setup
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "81:80/tcp"
+    environment:
+      TZ: 'America/Chicago'
+      # WEBPASSWORD: 'set a secure password here or it will be random'
+      # Volumes store your data between container upgrades
+    volumes:
+      - './etc-pihole/:/etc/pihole/'
+      - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  #homebridge setup (third-party support for homekit)
+  homebridge:
+    image: oznu/homebridge:latest
+    container_name: homebridge
+    restart: always
+    network_mode: host
+    ports:
+      - "8581:8581"
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - HOMEBRIDGE_CONFIG_UI=1
+      - HOMEBRIDGE_CONFIG_UI_PORT=8581
+      - TZ=America/Chicago
+    volumes:
+      - ./volumes/homebridge:/homebridge
+
+  #homer setup (landing page for locally-hosted services)
+  homer:
+    image: b4bz/homer
+    container_name: homer
+    volumes:
+      - /home/$USER/homer/:/www/assets
+    ports:
+      - 80:8080
+    #environment:
+    #  - UID=1000
+    #  - GID=1000
+    restart: unless-stopped
+
+  wireguard:
+    image: lscr.io/linuxserver/wireguard
+    container_name: wireguard
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - SERVERURL=vpn.strommen.dev #optional
+      - SERVERPORT=51820 #optional
+      - PEERS=1 #optional
+      - PEERDNS=auto #optional
+      - INTERNAL_SUBNET=10.13.13.0 #optional
+      - ALLOWEDIPS=0.0.0.0/0 #optional
+    volumes:
+      - /path/to/appdata/config:/config
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    restart: unless-stopped
