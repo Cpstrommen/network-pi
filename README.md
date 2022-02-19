@@ -4,6 +4,8 @@ A collection of docker containers to provide enterprise-level services for a hom
 Thank you to Jeff Geerling for inspiration and a framework for this project in his [internet-pi project](https://github.com/geerlingguy/internet-pi)
 ## Installation
 ### Requirements
+* Raspberry Pi running RaspberryPiOS or your distro of choice
+    * Pi 4 4gb or better recommended if you intend to implement the full feature set
 * Docker    `sudo apt-get install docker`
     * Add user to the docker group with `sudo usermod -aG docker <username>`
 * Docker Compose    `sudo apt-get install docker-compose`
@@ -21,6 +23,7 @@ Thank you to Jeff Geerling for inspiration and a framework for this project in h
 - Install Ansible requirements with `ansible-galaxy collection install -r requirements.yml`
 - Run the base Ansible playbook to install the framework `ansible-playbook main.yml`
 - Create the docker containers with `docker-compose up -d`
+    * For Portainer and Rancher, create and deploy a new stack using the contents of `docker-compose.yml`
 
 ## Contribution Notes
 Since this is a pi-based project, please confirm all included docker images are compatible with arm64 systems
