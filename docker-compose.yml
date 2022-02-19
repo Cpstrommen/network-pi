@@ -1,10 +1,11 @@
-version: 3
+version: 3.7
 
 services:
 
-  #pihole setup
+  #pihole setup (local DNS server)
   pihole:
     container_name: pihole
+    hostname: pihole
     image: pihole/pihole:latest
     ports:
       - "53:53/tcp"
@@ -13,8 +14,7 @@ services:
       - "81:80/tcp"
     environment:
       TZ: 'America/Chicago'
-      # WEBPASSWORD: 'set a secure password here or it will be random'
-      # Volumes store your data between container upgrades
+      WEBPASSWORD: 'set a secure password here or it will be random'
     volumes:
       - './etc-pihole/:/etc/pihole/'
       - './etc-dnsmasq.d/:/etc/dnsmasq.d/'
@@ -26,6 +26,7 @@ services:
   homebridge:
     image: oznu/homebridge:latest
     container_name: homebridge
+    hostname: homebridge
     restart: always
     network_mode: host
     ports:
@@ -43,6 +44,7 @@ services:
   homer:
     image: b4bz/homer
     container_name: homer
+    hostname: homer
     volumes:
       - /home/$USER/homer/:/www/assets
     ports:
@@ -52,11 +54,11 @@ services:
     #  - GID=1000
     restart: unless-stopped
 
-  services:
-
+  #wireguard setup (local VPN server)
   wireguard:
     image: ghcr.io/linuxserver/wireguard
     container_name: wireguard
+    hostname: wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -74,7 +76,7 @@ services:
       -  ./config/wireguard:/config
       - /lib/modules:/lib/modules
     ports:
-      - 51820:51820/udp
+      - 51820:51820/udp #it is strongly recommended to change from the default port
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped

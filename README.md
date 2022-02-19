@@ -41,6 +41,7 @@ Thank you to Jeff Geerling for inspiration and a framework for this project in h
 
 ### Post-installation Configuration
 - Add DNS blocklists to PiHole avaliable at [The Firebog](https://v.firebog.net/hosts/lists.php)
+    * Optional: add local DNS names for each local service's web UI in the PiHole UI
 - Customize Homer dashboard by editing `/homer/config.yml` on the host
 - Add HomeBridge to Apple Homekit by using the web gui at `server-ip:8581`
 - Fetch VPN peer keys from `./config/wireguard` on the host
@@ -49,6 +50,7 @@ Thank you to Jeff Geerling for inspiration and a framework for this project in h
 - PiHole at `server-ip:81`
 - Homer at `server-ip:80`
 - Homebridge at `server-ip:8581`
+- Grafana at `server-ip:3030`
 
 ## Contribution Notes
 Since this is a pi-based project, please confirm all included docker images are compatible with arm64 systems
